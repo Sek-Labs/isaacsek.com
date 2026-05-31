@@ -15,20 +15,6 @@ npm run build
 
 ## Deployment
 
-Canonical production target: Fly.io app `isaacsek-site`, served at `https://isaacsek.com`.
+Production target: Vercel. Deploys are triggered automatically by pushing to the repo's default branch via Vercel's Git integration. Build command: `npm run build`, output directory: `dist`.
 
-GitHub Pages and Cloudflare Pages are intentionally not deploy targets for this repo. The old GitHub Pages workflow was removed to avoid duplicate production paths.
-
-This is a Vite static site. Build output is `dist/`.
-
-```sh
-npm run build
-fly deploy
-```
-
-Before changing deployment config, verify production with:
-
-```sh
-curl -sSI https://isaacsek.com | sed -n '1,20p'
-fly status -a isaacsek-site
-```
+GitHub Pages and Cloudflare Pages are intentionally not deploy targets for this repo.

@@ -2,11 +2,12 @@ function Hero() {
   return (
     <section id="top" className="hero">
       <div className="hero-inner">
-        <p className="eyebrow">Software engineer and founder</p>
-        <h1>Building practical products with sharp edges sanded down.</h1>
+        <p className="eyebrow">Software engineer building in public</p>
+        <h1>I build small, practical bets and ship them.</h1>
         <p className="hero-copy">
-          I am Isaac Sek, a software engineer in New York building consumer
-          software, developer tools, and small businesses through Sek Labs.
+          I'm Isaac Sek, a software engineer in New York building a portfolio of
+          focused consumer products around real friction points I couldn't stop
+          thinking about.
         </p>
         <div className="hero-actions">
           <a className="button primary" href="#work">View work</a>
