@@ -19,7 +19,7 @@ function Footer() {
             <a key={link.label} href={link.href}>{link.label}</a>
           ))}
           <a href="https://sek-labs.com">Sek Labs</a>
-          <a href="mailto:isaachsek@gmail.com">Email</a>
+          <a href="mailto:isaac@sek-labs.com">Email</a>
         </nav>
       </div>
     </footer>

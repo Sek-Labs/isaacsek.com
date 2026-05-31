@@ -12,7 +12,7 @@ describe("Isaac Sek personal site", () => {
     expect(screen.getAllByText(/BrickReports/i).length).toBeGreaterThan(0);
     expect(screen.getAllByText(/Tally/i).length).toBeGreaterThan(0);
     expect(screen.getAllByText(/Taka/i).length).toBeGreaterThan(0);
-    expect(screen.getAllByText(/isaachsek@gmail.com/i).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/isaac@sek-labs.com/i).length).toBeGreaterThan(0);
   });
 
   it("renders the updated hero eyebrow text", () => {
@@ -148,7 +148,7 @@ describe("Isaac Sek personal site", () => {
       expect(contactDl).not.toBeNull();
 
       const mailtoLink = contactDl!.querySelector(
-        'a[href="mailto:isaachsek@gmail.com"]'
+        'a[href="mailto:isaac@sek-labs.com"]'
       );
       expect(mailtoLink).not.toBeNull();
     });
@@ -166,7 +166,7 @@ describe("Isaac Sek personal site", () => {
     const { container } = render(<App />);
 
     const mailtoLinks = container.querySelectorAll(
-      'a[href="mailto:isaachsek@gmail.com"]'
+      'a[href="mailto:isaac@sek-labs.com"]'
     );
     expect(mailtoLinks.length).toBeGreaterThanOrEqual(1);
   });

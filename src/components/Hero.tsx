@@ -11,7 +11,7 @@ function Hero() {
         </p>
         <div className="hero-actions">
           <a className="button primary" href="#work">View work</a>
-          <a className="button secondary" href="mailto:isaachsek@gmail.com">Get in touch</a>
+          <a className="button secondary" href="mailto:isaac@sek-labs.com">Get in touch</a>
         </div>
       </div>
     </section>
