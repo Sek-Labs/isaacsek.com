@@ -1,25 +1,165 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, within } from "@testing-library/react";
 import "@testing-library/jest-dom/vitest";
 import { describe, expect, it } from "vitest";
 import { App } from "./main";
 
 describe("Isaac Sek personal site", () => {
-  it("renders personal site details", () => {
+  it("renders core personal details and all three products", () => {
     render(<App />);
 
     expect(screen.getAllByText(/Isaac Sek/i).length).toBeGreaterThan(0);
-    expect(screen.getAllByText(/Software engineer and founder/i).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/New York/i).length).toBeGreaterThan(0);
     expect(screen.getAllByText(/BrickReports/i).length).toBeGreaterThan(0);
     expect(screen.getAllByText(/Tally/i).length).toBeGreaterThan(0);
-    expect(screen.getAllByText(/New York City/i).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/Taka/i).length).toBeGreaterThan(0);
     expect(screen.getAllByText(/isaachsek@gmail.com/i).length).toBeGreaterThan(0);
   });
 
-  it("has a Tally link pointing to tallyfinances.com", () => {
+  it("renders the updated hero eyebrow text", () => {
     render(<App />);
 
-    const tallyLink = screen.getByRole("link", { name: /Tally/i });
-    expect(tallyLink).toHaveAttribute("href", "https://tallyfinances.com/");
+    expect(
+      screen.getAllByText(/Software engineer building in public/i).length
+    ).toBeGreaterThan(0);
+    // The old eyebrow text must NOT appear anywhere
+    expect(
+      screen.queryByText(/Software engineer and founder/i)
+    ).not.toBeInTheDocument();
+  });
+
+  it("does not claim Isaac left big tech", () => {
+    render(<App />);
+
+    expect(screen.queryByText(/left big tech/i)).not.toBeInTheDocument();
+  });
+
+  describe("Sek Labs placement", () => {
+    it("does not mention Sek Labs anywhere inside <main>", () => {
+      render(<App />);
+
+      const mainEl = screen.getByRole("main");
+      expect(mainEl.textContent).not.toMatch(/Sek Labs/i);
+    });
+
+    it("still has a Sek Labs link in the footer", () => {
+      render(<App />);
+
+      const footer = screen.getByRole("contentinfo");
+      const sekLabsLink = within(footer).getByRole("link", {
+        name: /Sek Labs/i,
+      });
+      expect(sekLabsLink).toBeInTheDocument();
+    });
+  });
+
+  describe("products section (#work)", () => {
+    it("renders exactly 3 product cards", () => {
+      const { container } = render(<App />);
+
+      const productCards = container.querySelectorAll("#work article");
+      expect(productCards.length).toBe(3);
+    });
+
+    it("has a Tally product link with correct href", () => {
+      const { container } = render(<App />);
+
+      const productsSection = container.querySelector("#work");
+      expect(productsSection).not.toBeNull();
+
+      const tallyLink = productsSection!.querySelector(
+        'a[href="https://tallyfinances.com/"]'
+      );
+      expect(tallyLink).not.toBeNull();
+      expect(tallyLink!.textContent).toMatch(/Tally/i);
+    });
+
+    it("renders Taka card with no outbound link and Coming soon status", () => {
+      const { container } = render(<App />);
+
+      const productCards = container.querySelectorAll("#work article");
+      let takaCard: Element | null = null;
+      productCards.forEach((card) => {
+        const heading = card.querySelector("h3");
+        if (heading && /Taka/i.test(heading.textContent ?? "")) {
+          takaCard = card;
+        }
+      });
+
+      expect(takaCard).not.toBeNull();
+      // Taka should have NO anchor elements (no outbound link)
+      const linksInTaka = takaCard!.querySelectorAll("a");
+      expect(linksInTaka.length).toBe(0);
+      // Taka should display "Coming soon" status
+      expect(takaCard!.textContent).toMatch(/Coming soon/i);
+    });
+
+    it("uses strategy-specific product positioning copy", () => {
+      const { container } = render(<App />);
+
+      const productsSection = container.querySelector("#work");
+      expect(productsSection).not.toBeNull();
+      expect(productsSection!.textContent).toMatch(/NYC rentals/i);
+      expect(productsSection!.textContent).toMatch(
+        /Rental due-diligence reports for New York City renters/i
+      );
+      expect(productsSection!.textContent).toMatch(
+        /Personal finance should hurt less/i
+      );
+    });
+  });
+
+  describe("contact section", () => {
+    it("has exactly 3 definition list rows: Name, Location, Email", () => {
+      const { container } = render(<App />);
+
+      const contactDl = container.querySelector("#contact dl");
+      expect(contactDl).not.toBeNull();
+
+      const dtElements = contactDl!.querySelectorAll("dt");
+      expect(dtElements.length).toBe(3);
+
+      const dtTexts = Array.from(dtElements).map(
+        (dt) => dt.textContent ?? ""
+      );
+      expect(dtTexts).toContain("Name");
+      expect(dtTexts).toContain("Location");
+      expect(dtTexts).toContain("Email");
+    });
+
+    it("does not contain a Company row or Sek Labs LLC", () => {
+      const { container } = render(<App />);
+
+      const contactSection = container.querySelector("#contact");
+      expect(contactSection).not.toBeNull();
+
+      const dtElements = contactSection!.querySelectorAll("dt");
+      const dtTexts = Array.from(dtElements).map(
+        (dt) => dt.textContent ?? ""
+      );
+      expect(dtTexts).not.toContain("Company");
+
+      expect(contactSection!.textContent).not.toMatch(/Sek Labs LLC/i);
+    });
+
+    it("has an Email row with the correct mailto link", () => {
+      const { container } = render(<App />);
+
+      const contactDl = container.querySelector("#contact dl");
+      expect(contactDl).not.toBeNull();
+
+      const mailtoLink = contactDl!.querySelector(
+        'a[href="mailto:isaachsek@gmail.com"]'
+      );
+      expect(mailtoLink).not.toBeNull();
+    });
+
+    it("does not apply card class to the contact section", () => {
+      const { container } = render(<App />);
+
+      const contactSection = container.querySelector(".contact");
+      expect(contactSection).toBeInTheDocument();
+      expect(contactSection).not.toHaveClass("card");
+    });
   });
 
   it("has at least one mailto link for Isaac", () => {
@@ -66,30 +206,17 @@ describe("Isaac Sek personal site", () => {
     const footerNav = screen.getByRole("navigation", {
       name: /Company links/i,
     });
-    const links = Array.from(footerNav.querySelectorAll("a")).map((link) => link.textContent);
-
-    expect(links).toEqual(expect.arrayContaining(["Privacy", "Terms", "Cookies", "Email"]));
-    expect(screen.queryByText(/This company website does not set non-essential cookies/i)).not.toBeInTheDocument();
-  });
-
-  it("does not apply card class to the contact section", () => {
-    const { container } = render(<App />);
-
-    const contactSection = container.querySelector(".contact");
-    expect(contactSection).toBeInTheDocument();
-    expect(contactSection).not.toHaveClass("card");
-  });
-
-  it("has a Tally product link with correct href in the products section", () => {
-    const { container } = render(<App />);
-
-    const productsSection = container.querySelector("#work");
-    expect(productsSection).not.toBeNull();
-
-    const tallyLink = productsSection!.querySelector(
-      'a[href="https://tallyfinances.com/"]'
+    const links = Array.from(footerNav.querySelectorAll("a")).map(
+      (link) => link.textContent
     );
-    expect(tallyLink).not.toBeNull();
-    expect(tallyLink!.textContent).toMatch(/Tally/i);
+
+    expect(links).toEqual(
+      expect.arrayContaining(["Privacy", "Terms", "Cookies", "Email"])
+    );
+    expect(
+      screen.queryByText(
+        /This company website does not set non-essential cookies/i
+      )
+    ).not.toBeInTheDocument();
   });
 });

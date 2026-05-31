@@ -10,9 +10,9 @@ import type { Product } from "./components/Products";
 const work: readonly Product[] = [
   {
     name: "BrickReports",
-    status: "Founder project",
+    status: "NYC rentals",
     description:
-      "Rental due-diligence reports that help New York City renters understand building quality, complaint history, and risk signals before signing a lease.",
+      "Rental due-diligence reports for New York City renters evaluating building quality, complaint history, and risk before signing a lease.",
     href: "https://brickreports.com",
     linkLabel: "Visit BrickReports",
   },
@@ -20,9 +20,15 @@ const work: readonly Product[] = [
     name: "Tally",
     status: "Personal finance",
     description:
-      "A personal finance product focused on helping people understand cash flow, habits, and everyday financial decisions with less friction.",
+      "Personal finance should hurt less. Tally is focused on understanding cash flow, habits, and everyday money decisions with less friction.",
     href: "https://tallyfinances.com/",
     linkLabel: "Visit Tally",
+  },
+  {
+    name: "Taka",
+    status: "Coming soon",
+    description:
+      "A lighter-weight content and personal edge, with details dropping soon.",
   },
 ];
 

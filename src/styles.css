@@ -1,6 +1,6 @@
 :root {
-  --color-background: #f7f3eb;
-  --color-surface: rgba(255, 252, 246, 0.65);
+  --color-background: #f6f8fb;
+  --color-surface: rgba(255, 255, 255, 0.82);
   --color-border: rgba(16, 32, 51, 0.08);
   --color-border-strong: rgba(16, 32, 51, 0.15);
   --color-foreground: #102033;
@@ -13,7 +13,7 @@
   --color-badge-bg: #e7eef5;
   --color-badge-text: #315777;
   --color-button-primary-bg: #102033;
-  --color-button-primary-fg: #fffaf0;
+  --color-button-primary-fg: #ffffff;
   --color-button-primary-hover: #1a3348;
   --color-button-primary-active: #0c1824;
   --color-eyebrow: #4a6580;
@@ -53,7 +53,7 @@ summary:focus-visible {
 .site-header {
   align-items: center;
   backdrop-filter: blur(18px);
-  background: rgba(247, 243, 235, 0.84);
+  background: rgba(246, 248, 251, 0.86);
   border-bottom: 1px solid var(--color-border);
   display: flex;
   justify-content: space-between;
@@ -86,16 +86,6 @@ nav a:hover { color: var(--color-foreground); }
   padding: clamp(36px, 7vw, 86px) clamp(20px, 7vw, 96px) clamp(56px, 8vw, 96px);
   position: relative;
 }
-.hero::after {
-  background: radial-gradient(circle at center, rgba(57, 113, 164, 0.12), transparent 62%);
-  content: "";
-  height: 600px;
-  position: absolute;
-  right: -240px;
-  top: -140px;
-  width: 600px;
-  z-index: -1;
-}
 .eyebrow {
   color: var(--color-eyebrow);
   font-size: 0.78rem;
@@ -112,7 +102,7 @@ h1, h2, h3, p { margin-top: 0; }
 h1 {
   color: var(--color-foreground);
   font-size: clamp(2.6rem, 6vw, 4.8rem);
-  letter-spacing: -0.04em;
+  letter-spacing: 0;
   line-height: 0.95;
   margin-bottom: 24px;
   max-width: 800px;
@@ -120,11 +110,11 @@ h1 {
 h2 {
   color: var(--color-foreground);
   font-size: clamp(2rem, 4vw, 3.6rem);
-  letter-spacing: -0.055em;
+  letter-spacing: 0;
   line-height: 1;
   margin-bottom: 20px;
 }
-h3 { color: var(--color-foreground); font-size: 1.35rem; letter-spacing: -0.03em; }
+h3 { color: var(--color-foreground); font-size: 1.35rem; letter-spacing: 0; }
 p { color: var(--color-foreground-secondary); font-size: 1.05rem; line-height: 1.72; }
 .hero-inner { max-width: 1040px; }
 .hero-copy {
@@ -193,7 +183,7 @@ p { color: var(--color-foreground-secondary); font-size: 1.05rem; line-height: 1
 }
 
 /* --- Cards --- */
-.cards { display: grid; gap: 22px; grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: 28px; }
+.cards { display: grid; gap: 22px; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); margin-top: 28px; }
 .card {
   background: var(--color-surface);
   border: 1px solid var(--color-border);
@@ -274,6 +264,8 @@ footer {
   .site-header { align-items: flex-start; flex-direction: column; gap: 18px; position: relative; }
   nav { flex-wrap: wrap; }
   .split { grid-template-columns: 1fr; }
+  .cards { grid-template-columns: 1fr; }
+  dl { grid-template-columns: 1fr; }
   .footer-main { align-items: flex-start; flex-direction: column; }
   .footer-links { justify-content: flex-start; }
 }

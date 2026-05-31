@@ -1,10 +1,11 @@
-interface Product {
+type Product = {
   readonly name: string;
   readonly status: string;
   readonly description: string;
-  readonly href: string;
-  readonly linkLabel: string;
-}
+} & (
+  | { readonly href: string; readonly linkLabel: string }
+  | { readonly href?: undefined; readonly linkLabel?: undefined }
+);
 
 interface ProductsProps {
   readonly products: readonly Product[];
@@ -23,9 +24,11 @@ function Products({ products }: ProductsProps) {
               <span>{product.status}</span>
             </div>
             <p>{product.description}</p>
-            <a href={product.href} aria-label={product.linkLabel}>
-              {product.linkLabel} →
-            </a>
+            {product.href && (
+              <a href={product.href} aria-label={product.linkLabel}>
+                {product.linkLabel} →
+              </a>
+            )}
           </article>
         ))}
       </div>
