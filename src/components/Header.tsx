@@ -8,6 +8,7 @@ function Header() {
       <nav aria-label="Main navigation">
         <a href="#about">About</a>
         <a href="#work">Work</a>
+        <a href="#follow">Follow</a>
         <a href="#contact">Contact</a>
       </nav>
     </header>

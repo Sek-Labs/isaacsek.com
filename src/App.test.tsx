@@ -219,4 +219,129 @@ describe("Isaac Sek personal site", () => {
       )
     ).not.toBeInTheDocument();
   });
+
+  // ST-1 — Tighten About copy
+  describe("about section copy (#about)", () => {
+    it("drops the 'years at large software companies' phrasing", () => {
+      const { container } = render(<App />);
+
+      const aboutSection = container.querySelector("#about");
+      expect(aboutSection).not.toBeNull();
+      expect(aboutSection!.textContent).not.toMatch(
+        /years at large software companies/i
+      );
+    });
+
+    it("drops the 'Big-tech engineering, indie-scale ambition' heading", () => {
+      const { container } = render(<App />);
+
+      const aboutSection = container.querySelector("#about");
+      expect(aboutSection).not.toBeNull();
+      expect(aboutSection!.textContent).not.toMatch(
+        /Big-tech engineering, indie-scale ambition/i
+      );
+    });
+
+    it("frames the about heading around building in public", () => {
+      const { container } = render(<App />);
+
+      const aboutHeading = container.querySelector("#about h2");
+      expect(aboutHeading).not.toBeNull();
+      expect(aboutHeading!.textContent).toMatch(/in public/i);
+    });
+  });
+
+  // ST-2 — Add founder framing to hero (NOT the eyebrow)
+  describe("hero founder framing (#top)", () => {
+    it("mentions 'founder' somewhere inside the hero", () => {
+      const { container } = render(<App />);
+
+      const heroSection = container.querySelector("#top");
+      expect(heroSection).not.toBeNull();
+      expect(heroSection!.textContent).toMatch(/founder/i);
+    });
+
+    it("does not put 'founder' inside the eyebrow paragraph", () => {
+      const { container } = render(<App />);
+
+      const eyebrow = container.querySelector("#top p.eyebrow");
+      expect(eyebrow).not.toBeNull();
+      expect(eyebrow!.textContent).not.toMatch(/founder/i);
+      // The original eyebrow copy must remain intact.
+      expect(eyebrow!.textContent).toMatch(
+        /Software engineer building in public/i
+      );
+    });
+  });
+
+  // ST-3 — Build-in-public links surface (#follow)
+  describe("follow links surface (#follow)", () => {
+    it("renders a #follow section inside <main>", () => {
+      const { container } = render(<App />);
+
+      const mainEl = container.querySelector("main");
+      expect(mainEl).not.toBeNull();
+
+      const followSection = mainEl!.querySelector("#follow");
+      expect(followSection).not.toBeNull();
+    });
+
+    it("exposes external X/Twitter and GitHub links opening safely", () => {
+      const { container } = render(<App />);
+
+      const followSection = container.querySelector("#follow");
+      expect(followSection).not.toBeNull();
+
+      const httpsLinks = followSection!.querySelectorAll(
+        'a[href^="https://"]'
+      );
+      expect(httpsLinks.length).toBeGreaterThanOrEqual(2);
+
+      const scoped = within(followSection as HTMLElement);
+      const twitterLink = scoped.getByRole("link", { name: /x|twitter/i });
+      const githubLink = scoped.getByRole("link", { name: /github/i });
+
+      for (const link of [twitterLink, githubLink]) {
+        expect(link).toHaveAttribute("href", expect.stringMatching(/^https:\/\//));
+        expect(link).toHaveAttribute("target", "_blank");
+        expect(link.getAttribute("rel") ?? "").toMatch(/noopener/);
+      }
+    });
+
+    it("does not mention Sek Labs in the #follow section", () => {
+      const { container } = render(<App />);
+
+      const followSection = container.querySelector("#follow");
+      expect(followSection).not.toBeNull();
+      expect(followSection!.textContent).not.toMatch(/Sek Labs/i);
+    });
+
+    it("does not add the follow links to the #work product grid", () => {
+      const { container } = render(<App />);
+
+      const productCards = container.querySelectorAll("#work article");
+      expect(productCards.length).toBe(3);
+    });
+  });
+
+  // ST-4 — Skip-to-content link
+  describe("skip-to-content link", () => {
+    it("renders a skip link targeting the main content", () => {
+      render(<App />);
+
+      const skipLink = screen.getByRole("link", {
+        name: /skip to (main )?content/i,
+      });
+      expect(skipLink).toBeInTheDocument();
+      expect(skipLink).toHaveAttribute("href", "#main-content");
+    });
+
+    it("keeps id='main-content' on the main element", () => {
+      const { container } = render(<App />);
+
+      const mainEl = container.querySelector("main");
+      expect(mainEl).not.toBeNull();
+      expect(mainEl).toHaveAttribute("id", "main-content");
+    });
+  });
 });

@@ -3,7 +3,7 @@ function Hero() {
     <section id="top" className="hero">
       <div className="hero-inner">
         <p className="eyebrow">Software engineer building in public</p>
-        <h1>I build small, practical bets and ship them.</h1>
+        <h1>Founder shipping small, practical bets in public.</h1>
         <p className="hero-copy">
           I'm Isaac Sek, a software engineer in New York building a portfolio of
           focused consumer products around real friction points I couldn't stop
