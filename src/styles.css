@@ -269,3 +269,31 @@ footer {
   .footer-main { align-items: flex-start; flex-direction: column; }
   .footer-links { justify-content: flex-start; }
 }
+
+/* --- Skip link --- */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 100;
+  padding: 12px 20px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  border-radius: 0 0 8px 0;
+  text-decoration: none;
+  background: var(--color-button-primary-bg);
+  color: var(--color-button-primary-fg);
+}
+.skip-link:focus {
+  left: 0;
+  outline: 3px solid currentColor;
+  outline-offset: 2px;
+}
+
+/* --- Follow links row --- */
+.follow-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 28px;
+}
